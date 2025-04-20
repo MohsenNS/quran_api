@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'storages',
+    'drf_yasg',
     'pages',
 ]
 
@@ -127,10 +128,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-AWS_ACCESS_KEY_ID = 'admin'
-AWS_SECRET_ACCESS_KEY = '12344321'
-AWS_STORAGE_BUCKET_NAME = 'quranpages'
-AWS_S3_ENDPOINT_URL = 'http://127.0.0.1:9000'  # Your MinIO endpoint
+# AWS_ACCESS_KEY_ID = 'admin'
+# AWS_SECRET_ACCESS_KEY = '12344321'
+# AWS_STORAGE_BUCKET_NAME = 'quranpages'
+# AWS_S3_ENDPOINT_URL = 'http://127.0.0.1:9000'
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+# AWS_S3_REGION_NAME = 'us-east-1'
+
+AWS_ACCESS_KEY_ID = '6db829hhriee7gg6'
+AWS_SECRET_ACCESS_KEY = '70a222ed-96d8-4dee-a84e-b2cca42df8b9'
+AWS_STORAGE_BUCKET_NAME = 'qpages'
+AWS_S3_ENDPOINT_URL = 'storage.c2.liara.space'
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
-AWS_S3_REGION_NAME = 'us-east-1'  # Add this to prevent any region mismatch issues
+AWS_S3_REGION_NAME = 'us-east-1'
