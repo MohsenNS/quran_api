@@ -1,0 +1,9 @@
+{
+    "disks": [
+        {
+            "name": "sqlite",
+            "mountTo": "sqlite"
+        }
+    ],
+    "app": "quranpage"
+}
