@@ -17,9 +17,13 @@ class Khatm(TimeStampedModel):
             with atomic():
                 KhatmRecords.objects.bulk_create(records, batch_size=1000)
         return res
+    class Meta:
+        verbose_name = "ختم"
 
 class KhatmRecords(TimeStampedModel):
     khatm = models.ForeignKey(Khatm, on_delete=models.CASCADE)
     page = models.ForeignKey(QuranPage, on_delete=models.CASCADE)
     read = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name = "رکورد صفحه"

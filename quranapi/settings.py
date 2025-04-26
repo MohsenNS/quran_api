@@ -40,10 +40,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'storages',
     'drf_yasg',
+    'corsheaders',
     'pages',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -144,3 +146,5 @@ AWS_S3_ENDPOINT_URL = 'https://storage.c2.liara.space'
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 AWS_S3_REGION_NAME = 'us-east-1'
+
+CORS_ALLOW_ALL_ORIGINS = True
