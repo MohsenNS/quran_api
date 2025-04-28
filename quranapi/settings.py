@@ -23,9 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!qlrsxt*(x9uezl@y%52&qg_sugoer1q*pjjmx-@u7yvh8$y_4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'yeksafhe.ir'
+]
 
 
 # Application definition
@@ -153,7 +155,9 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 AWS_S3_REGION_NAME = 'us-east-1'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ORIGINS = [
+    "https://yeksafhe.ir",
+]
 
 FORCE_SCRIPT_NAME = '/api'
 USE_X_FORWARDED_HOST = True
