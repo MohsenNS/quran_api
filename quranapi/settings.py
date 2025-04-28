@@ -80,9 +80,15 @@ WSGI_APPLICATION = 'quranapi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'database', "db.sqlite3"),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # # 'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'database', "db.sqlite3"),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'yeksafhe_db',
+        'HOST': '88.198.101.239',
+        'PORT': '3369',
+        'USER': 'yeksafhe_user',
+        'PASSWORD': 'yeksafhe_password',
     }
 }
 

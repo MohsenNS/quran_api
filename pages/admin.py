@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import QuranPage, Khatm, KhatmRecords
 from django.forms import BooleanField
 
+
 # Register your models here.
 
 # admin.site.register(QuranPage)
