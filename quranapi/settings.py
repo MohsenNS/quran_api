@@ -162,3 +162,8 @@ CORS_ALLOW_ORIGINS = [
 FORCE_SCRIPT_NAME = '/api'
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+STATIC_URL = '/api/static/'
+MEDIA_URL = '/api/media/'
+
+STATIC_ROOT = '/static'
