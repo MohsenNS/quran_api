@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, GenericAPIView, ListCreateAPIView
-from .models import QuranPage, Khatm, KhatmRecords
-from .serializers import QuranPageSerializer, KhatmSerializer, KhatmRecordsSerializer
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, GenericAPIView, ListCreateAPIView, CreateAPIView
+from .models import QuranPage, Khatm, KhatmRecords, Member
+from .serializers import QuranPageSerializer, KhatmSerializer, KhatmRecordsSerializer, MemberSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from rest_framework import status
@@ -12,7 +12,7 @@ from rest_framework import status
 class QuranPageDetail(GenericAPIView):
     queryset = QuranPage.objects.all()
     serializer_class = QuranPageSerializer
-
+    # beta testing for seeing pages detail using page number which is not needed in production
     def post(self, request, *args, **kwargs):
         page_num = request.data.get('page_num')
         if page_num is None:
@@ -52,3 +52,13 @@ class KhatmRecordsDetail(RetrieveUpdateDestroyAPIView):
             )
         except KhatmRecords.DoesNotExist:
             raise NotFound("KhatmRecord not found.")
+        
+class MemberDetail(CreateAPIView):
+    queryset = Member.objects.all()
+    serializer_class = MemberSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response({'sub_code': serializer.data['subscription_code']}, status=status.HTTP_201_CREATED)

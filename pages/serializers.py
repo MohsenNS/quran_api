@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import QuranPage, Khatm, KhatmRecords
+from .models import QuranPage, Khatm, KhatmRecords, Member
 
 class QuranPageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,3 +17,10 @@ class KhatmRecordsSerializer(serializers.ModelSerializer):
     class Meta:
         model = KhatmRecords
         fields = '__all__'
+
+class MemberSerializer(serializers.ModelSerializer):
+    subscription_code = serializers.ReadOnlyField()
+
+    class Meta:
+        model = Member
+        fields = ['first_name', 'last_name', 'phone_number', 'city', 'age', 'subscription_code']

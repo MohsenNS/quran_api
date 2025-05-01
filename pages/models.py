@@ -1,6 +1,7 @@
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
 from django.db.transaction import atomic
+import random
 
 class QuranPage(models.Model):
     page_num = models.IntegerField(unique=True)
@@ -27,3 +28,20 @@ class KhatmRecords(TimeStampedModel):
 
     class Meta:
         verbose_name = "رکورد صفحه"
+
+class Member(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=200)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True)
+    subscription_code = models.CharField(max_length=5, unique=True)
+
+    def save(self, *args, **kwargs):
+        if not self.subscription_code:
+            while True:
+                code = f"{random.randint(10000, 99999)}"
+                if not Member.objects.filter(subscription_code=code).exists():
+                    self.subscription_code = code
+                    break
+        super().save(*args, **kwargs)
