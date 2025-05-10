@@ -23,10 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!qlrsxt*(x9uezl@y%52&qg_sugoer1q*pjjmx-@u7yvh8$y_4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    'yeksafhe.ir'
+    'yeksafhe.ir',
+    '127.0.0.1',
 ]
 
 
@@ -85,12 +86,18 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # # 'NAME': BASE_DIR / 'db.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'database', "db.sqlite3"),
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'yeksafhe_db',
+        # 'HOST': 'localhost',
+        # 'PORT': '3369',
+        # 'USER': 'yeksafhe_user',
+        # 'PASSWORD': 'yeksafhe_pass',
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'yeksafhe_db',
+        'NAME': 'quran',
         'HOST': 'localhost',
-        'PORT': '3369',
-        'USER': 'yeksafhe_user',
-        'PASSWORD': 'yeksafhe_pass',
+        'PORT': '3306',
+        'USER': 'root',
+        'PASSWORD': 'root',
     }
 }
 
@@ -157,6 +164,7 @@ AWS_S3_REGION_NAME = 'us-east-1'
 
 CORS_ALLOW_ORIGINS = [
     "https://yeksafhe.ir",
+    "http://127.0.0.1:8000",
 ]
 
 FORCE_SCRIPT_NAME = '/api'
