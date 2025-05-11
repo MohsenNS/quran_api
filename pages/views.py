@@ -36,22 +36,29 @@ class KhatmRecordsList(ListCreateAPIView):
 
 class KhatmRecordsDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = KhatmRecordsSerializer
-
+    
     def get_object(self):
-        khatm_id = self.request.query_params.get('khatm_id')
-        page_num = self.request.query_params.get('page_num')
-
-        if not khatm_id or not page_num:
-            raise NotFound("Both 'khatm_id' and 'page_num' query parameters are required.")
+        sub_code = self.request.query_params.get('sub_code')
+        
+        if not sub_code:
+            raise NotFound("the 'sub_code' parameter is required.")
 
         try:
-            # page = QuranPage.objects.get(page_num=page_num)
-            return KhatmRecords.objects.select_related('page').get(
-                khatm_id=khatm_id,
-                page__page_num=page_num
-            )
-        except KhatmRecords.DoesNotExist:
-            raise NotFound("KhatmRecord not found.")
+            member = Member.objects.get(subscription_code=sub_code)
+        except Member.DoesNotExist:
+            raise NotFound("کاربری با این کد اشتراک پیدا نشد.")
+        
+        khatm_record = KhatmRecords.objects.filter(read=False).select_related('page').order_by('page__page_num').first()
+
+        if not khatm_record:
+            Khatm.objects.create(text='ختم جدید')
+            khatm_record = KhatmRecords.objects.filter(read=False).select_related('page').order_by('page__page_num').first()
+
+        khatm_record.read = True
+        khatm_record.save()
+
+        return khatm_record
+
         
 class MemberDetail(CreateAPIView):
     queryset = Member.objects.all()

@@ -14,12 +14,17 @@ class Khatm(TimeStampedModel):
         is_new = self.pk is None
         res =  super().save(**kwargs)
         if is_new:
-            records = [KhatmRecords(khatm_id=self.id, page=QuranPage.objects.get(page_num=i)) for i in range(1,604)]
+            records = [KhatmRecords(khatm_id=self.id, page=QuranPage.objects.get(page_num=i)) for i in range(1,605)]
             with atomic():
                 KhatmRecords.objects.bulk_create(records, batch_size=1000)
         return res
+    
     class Meta:
         verbose_name = "ختم"
+        verbose_name_plural = "ختم‌ها"
+    
+    def __str__(self):
+        return f"ختم {self.id}"
 
 class KhatmRecords(TimeStampedModel):
     khatm = models.ForeignKey(Khatm, on_delete=models.CASCADE)
@@ -28,6 +33,10 @@ class KhatmRecords(TimeStampedModel):
 
     class Meta:
         verbose_name = "رکورد صفحه"
+        verbose_name_plural = "رکوردهای صفحه"
+    
+    def __str__(self):
+        return f"صفحه {self.page.page_num} "
 
 class Member(models.Model):
     first_name = models.CharField(max_length=100)
@@ -45,3 +54,10 @@ class Member(models.Model):
                     self.subscription_code = code
                     break
         super().save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name = "عضو"
+        verbose_name_plural = "اعضا"
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"

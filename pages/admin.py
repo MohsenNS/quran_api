@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import QuranPage, Khatm, KhatmRecords
+from .models import QuranPage, Khatm, KhatmRecords, Member
 from django.forms import BooleanField
 
 
@@ -27,3 +27,5 @@ class KhatmRecordsInline(admin.TabularInline):  # or admin.StackedInline for ver
 @admin.register(Khatm)
 class KhatmAdmin(admin.ModelAdmin):
     inlines = [KhatmRecordsInline]
+
+admin.site.register(Member)
