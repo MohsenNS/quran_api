@@ -41,7 +41,7 @@ class KhatmRecords(TimeStampedModel):
 class Member(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=200)
+    phone_number = models.CharField(max_length=200, unique=True)
     city = models.CharField(max_length=100, null=True, blank=True)
     age = models.IntegerField(null=True, blank=True)
     subscription_code = models.CharField(max_length=5, unique=True)

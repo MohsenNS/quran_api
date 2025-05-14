@@ -81,27 +81,35 @@ WSGI_APPLICATION = 'quranapi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # # 'NAME': BASE_DIR / 'db.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'database', "db.sqlite3"),
-
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'yeksafhe_db',
-        'HOST': 'localhost',
-        'PORT': '3369',
-        'USER': 'yeksafhe_user',
-        'PASSWORD': 'yeksafhe_pass',
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'quran',
-        # 'HOST': 'localhost',
-        # 'PORT': '3306',
-        # 'USER': 'root',
-        # 'PASSWORD': 'root',
+if not DEBUG:
+    DATABASES = {
+        'default': {
+            # 'ENGINE': 'django.db.backends.sqlite3',
+            # # 'NAME': BASE_DIR / 'db.sqlite3',
+            # 'NAME': os.path.join(BASE_DIR, 'database', "db.sqlite3"),
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'yeksafhe_db',
+            'HOST': 'localhost',
+            'PORT': '3369',
+            'USER': 'yeksafhe_user',
+            'PASSWORD': 'yeksafhe_pass',
+        }
     }
-}
+
+else:
+        DATABASES = {
+        'default': {
+            # 'ENGINE': 'django.db.backends.sqlite3',
+            # # 'NAME': BASE_DIR / 'db.sqlite3',
+            # 'NAME': os.path.join(BASE_DIR, 'database', "db.sqlite3"),
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'quran',
+            'HOST': 'localhost',
+            'PORT': '3306',
+            'USER': 'root',
+            'PASSWORD': 'root',
+        }
+    }
 
 
 # Password validation
