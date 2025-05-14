@@ -56,7 +56,7 @@ class KhatmRecordsDetail(RetrieveUpdateDestroyAPIView):
             Khatm.objects.create(text='ختم جدید')
             khatm_record = KhatmRecords.objects.filter(read=False).select_related('page').order_by('page__page_num').first()
 
-        khatm_record.read = True
+        # khatm_record.read = True
         khatm_record.save()
 
         return khatm_record
@@ -78,20 +78,22 @@ class SubCodeForgotten(APIView):
         phone_number = request.data.get('phone_number')
         if not phone_number:
             return Response({'error': 'شماره تلفن را وارد کنید'}, status=status.HTTP_400_BAD_REQUEST)
+        
         try:
             member = Member.objects.get(phone_number=phone_number)
-            auth_data = {
-                         'grant_type': 'client_credentials',
-                         'client_secret': 'YymkCGEmwtxDfipaPcyAiPFnjTndWgdN',
-                         'scope': 'read',
-                         'client_id': 'WBxodsqCUBXQtGyXLbrOuBsrmdIvNQVb'
-                         }
-            token = requests.post('http://safir.bale.ai/api/v2/auth/token', data=auth_data).json().get('access_token')
-            headers = {'Authorization': f'Bearer {token}'}
-            data = {'phone': phone_number, 'otp': int(member.subscription_code)}
-            respond = requests.post('https://safir.bale.ai/api/v2/send_otp', json=data, headers=headers)
-            return Response(status=respond.status_code)
-            # return Response({'sub_code': member.subscription_code}, status=status.HTTP_200_OK)
-        except member.DoesNotExist:
+        except Member.DoesNotExist:
             return Response({'error': 'کاربر با این شماره یافت نشد'}, status=status.HTTP_404_NOT_FOUND)
+
+        auth_data = {
+            'grant_type': 'client_credentials',
+            'client_secret': 'YymkCGEmwtxDfipaPcyAiPFnjTndWgdN',
+            'scope': 'read',
+            'client_id': 'WBxodsqCUBXQtGyXLbrOuBsrmdIvNQVb'
+        }
+        token = requests.post('http://safir.bale.ai/api/v2/auth/token', data=auth_data).json().get('access_token')
+        headers = {'Authorization': f'Bearer {token}'}
+        data = {'phone': phone_number, 'otp': int(member.subscription_code)}
+        respond = requests.post('https://safir.bale.ai/api/v2/send_otp', json=data, headers=headers)
+        return Response(status=respond.status_code)
+
         
