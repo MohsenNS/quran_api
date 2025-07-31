@@ -12,9 +12,9 @@ from selenium.webdriver.chrome.service import Service
 
 options = Options()
 # Runs Chrome in headless mode.
-# options.add_argument("--headless") 
-# # Recommended for Windows.
-# options.add_argument("--disable-gpu")
+options.add_argument("--headless") 
+# Recommended for Windows.
+options.add_argument("--disable-gpu")
 options.add_argument("--disable-dev-shm-usage")
 
 service = Service(
