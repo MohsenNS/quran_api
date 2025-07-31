@@ -176,8 +176,13 @@ AWS_S3_REGION_NAME = 'us-east-1'
 
 CORS_ALLOW_ORIGINS = [
     "https://yeksafhe.ir",
-    "http://localhost:8000",
 ]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^http://localhost:\d+$",
+    r"^http://127\.0\.0\.1:\d+$",
+]
+
 if not DEBUG:
     FORCE_SCRIPT_NAME = '/api'
     USE_X_FORWARDED_HOST = True
