@@ -29,7 +29,7 @@ service = Service("/usr/bin/chromedriver")  # adjust if chromedriver is elsewher
 driver = None
 
 def start_bot():
-    global driver, options, service
+    global driver, opts, service
     # getting the phone number which is being used as the bot in eitaa
     # phone_number = input("Enter phone number without first zero (example: 9110000000): ")
     phone_number = os.environ.get("PHONE_NUMBER")
