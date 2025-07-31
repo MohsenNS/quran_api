@@ -1,3 +1,4 @@
+from uuid import uuid4
 from selenium import webdriver
 import os
 from selenium.webdriver.common.by import By
@@ -17,6 +18,9 @@ options.add_argument("--headless")
 # Recommended for Windows.
 options.add_argument("--disable-gpu")
 options.add_argument("--disable-dev-shm-usage")
+
+uuid = uuid4()
+options.add_argument(f'--user-data-dir {uuid}')
 
 service = Service(
     log_path=os.devnull  # suppress logs completely
