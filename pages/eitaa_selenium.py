@@ -12,17 +12,19 @@ from selenium.webdriver.chrome.service import Service
 from django.db import transaction
 
 
-options = Options()
+opts = Options()
 # Runs Chrome in headless mode.
-options.add_argument("--headless") 
-# Recommended for Windows.
-options.add_argument("--disable-gpu")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument(f"--user-data-dir=/tmp/selenium_profile_{uuid.uuid4()}")  # avoid profile-in-use
+opts.add_argument("--headless=new")  # or "--headless" if your Chromium is older
+opts.add_argument("--no-sandbox")
+opts.add_argument("--disable-dev-shm-usage")
+# unique temp profile
+profile_dir = f"/tmp/selenium_profile_{uuid.uuid4()}"
+print("Using profile:", profile_dir)
+opts.add_argument(f"--user-data-dir={profile_dir}")
+opts.add_argument("--verbose")  # get more internal logging
 
-service = Service(
-    log_path=os.devnull  # suppress logs completely
-)
+service = Service("/usr/bin/chromedriver")  # adjust if chromedriver is elsewhere
+driver = webdriver.Chrome(service=service, options=opts)
 
 driver = None
 
