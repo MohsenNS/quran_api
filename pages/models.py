@@ -61,3 +61,6 @@ class Member(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+class EitaaOTP(models.Model):
+    otp = models.CharField(max_length=50)

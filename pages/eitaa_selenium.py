@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import inspect
 from selenium.webdriver.chrome.service import Service
+from django.db import transaction
 
 
 options = Options()
@@ -53,7 +54,17 @@ def start_bot():
     element.click()
 
     # entering the validation code from user and login
-    otp = input('enter the validation code: ')
+    from .models import EitaaOTP
+    otp = ''
+    with transaction.atomic():
+        while True:
+            object = EitaaOTP.objects.first()
+            if object:
+                otp = object.otp
+                object.delete()
+                break
+    
+    # otp = input('enter the validation code: ')
     time.sleep(3)
     element = driver.find_element(By.XPATH, "//*[@id='auth-pages']/div/div[2]/div[3]/div/div[3]/div/input")
     element.send_keys(otp)
