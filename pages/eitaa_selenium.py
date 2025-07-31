@@ -30,6 +30,8 @@ def start_bot():
     # phone_number = input("Enter phone number without first zero (example: 9110000000): ")
     phone_number = os.environ.get("PHONE_NUMBER")
 
+    print("[BOT] received phone_number from .env: ", phone_number)
+
     driver = webdriver.Chrome(service=service,options=options)
     print('Starting eitaa bot...')
 
