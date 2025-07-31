@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from rest_framework import status
 import requests
-
+from .eitaa_selenium import message
 
 
 #generic views is used here
@@ -96,4 +96,22 @@ class SubCodeForgotten(APIView):
         respond = requests.post('https://safir.bale.ai/api/v2/send_otp', json=data, headers=headers)
         return Response(status=respond.status_code)
 
+
+class EitaaSubCodeForgotten(APIView):
+    def post(self, request):
+        phone_number = request.data.get('phone_number')
+        if not phone_number:
+            return Response({'error': 'شماره تلفن را وارد کنید'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            member = Member.objects.get(phone_number=phone_number)
+        except Member.DoesNotExist:
+            return Response({'error': 'کاربر با این شماره یافت نشد'}, status=status.HTTP_404_NOT_FOUND)
+        
+        code = member.subscription_code
+        result = message(phone_number, code)
+        if result['success']:
+            return Response({'status': result['detail']}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': result['detail']}, status=status.HTTP_400_BAD_REQUEST)
         

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import QuranPageDetail, KhatmRecordsDetail, MemberDetail, SubCodeForgotten
+from .views import QuranPageDetail, KhatmRecordsDetail, MemberDetail, SubCodeForgotten, EitaaSubCodeForgotten
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
@@ -19,5 +19,6 @@ urlpatterns = [
     path('khatmrecords/', KhatmRecordsDetail.as_view(), name='record-detail'),
     path('register', MemberDetail.as_view(), name='member-register'),
     path('subcode-bale', SubCodeForgotten.as_view(), name='bale-recover-subcode'),
+    path('subcode-eitaa', EitaaSubCodeForgotten.as_view(), name='eitaa-recover-subcode'),
     path('swagger', schema_view.with_ui('swagger', cache_timeout=0),name='schema-swagger-ui'),
 ]
