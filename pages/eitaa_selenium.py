@@ -7,7 +7,7 @@ from datetime import datetime
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
-import inspect
+import uuid
 from selenium.webdriver.chrome.service import Service
 from django.db import transaction
 
@@ -18,6 +18,7 @@ options.add_argument("--headless")
 # Recommended for Windows.
 options.add_argument("--disable-gpu")
 options.add_argument("--disable-dev-shm-usage")
+options.add_argument(f"--user-data-dir=/tmp/selenium_profile_{uuid.uuid4()}")  # avoid profile-in-use
 
 service = Service(
     log_path=os.devnull  # suppress logs completely
