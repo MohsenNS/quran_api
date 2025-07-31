@@ -23,5 +23,5 @@ class PagesConfig(AppConfig):
         #     return
 
         print("Running start_bot() only once")
-        threading.Thread(target=eitaa_selenium.start_bot).start()
+        threading.Thread(target=eitaa_selenium.start_bot, daemon=True).start()
 
