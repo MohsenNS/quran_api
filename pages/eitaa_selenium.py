@@ -24,7 +24,7 @@ opts.add_argument(f"--user-data-dir={profile_dir}")
 opts.add_argument("--verbose")  # get more internal logging
 
 service = Service("/usr/bin/chromedriver")  # adjust if chromedriver is elsewhere
-driver = webdriver.Chrome(service=service, options=opts)
+# driver = webdriver.Chrome(service=service, options=opts)
 
 driver = None
 
@@ -36,7 +36,7 @@ def start_bot():
 
     print("[BOT] received phone_number from .env: ", phone_number)
 
-    driver = webdriver.Chrome(service=service,options=options)
+    driver = webdriver.Chrome(service=service,options=opts)
     print('Starting eitaa bot...')
 
     # wait until the page loads
