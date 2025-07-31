@@ -18,9 +18,9 @@ class PagesConfig(AppConfig):
     name = 'pages'
 
     def ready(self):
-        if os.environ.get('RUN_MAIN') != 'true':
-            # Prevents execution during the initial runserver fork
-            return
+        # if os.environ.get('RUN_MAIN') != 'true':
+        #     # Prevents execution during the initial runserver fork
+        #     return
 
         print("Running start_bot() only once")
         threading.Thread(target=eitaa_selenium.start_bot).start()
