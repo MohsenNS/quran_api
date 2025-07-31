@@ -76,6 +76,8 @@ def start_bot():
     element.send_keys(otp)
     # time.sleep(3)
 
+    return 0
+
 # global user variable(phone number)
 user = ''
 
