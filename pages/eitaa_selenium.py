@@ -23,7 +23,7 @@ print("Using profile:", profile_dir)
 opts.add_argument(f"--user-data-dir={profile_dir}")
 opts.add_argument("--verbose")  # get more internal logging
 
-service = Service("/usr/bin/chromedriver")  # adjust if chromedriver is elsewhere
+# service = Service("/usr/bin/chromedriver")  # adjust if chromedriver is elsewhere
 # driver = webdriver.Chrome(service=service, options=opts)
 
 driver = None
@@ -36,12 +36,12 @@ def start_bot():
 
     print("[BOT] received phone_number from .env: ", phone_number)
 
-    driver = webdriver.Chrome(service=service,options=opts)
+    driver = webdriver.Chrome(options=opts)
     print('Starting eitaa bot...')
 
     # wait until the page loads
     driver.get('https://web.eitaa.com/')
-    while True:
+    for i in range(0,5):
         try:
             wait = WebDriverWait(driver, 10)
             element = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='auth-pages']/div/div[2]/div[1]/div/div[3]/div[2]/div[1]")))
@@ -49,6 +49,8 @@ def start_bot():
         except Exception as e:
             print('ERROR: The page did not open. Retrying...')
             time.sleep(5)
+        if i == 5:
+            driver.refresh()
 
     # entering the phone number and go to otp tab
     # time.sleep(5)
@@ -61,14 +63,17 @@ def start_bot():
 
     # entering the validation code from user and login
     from .models import EitaaOTP
-    otp = ''
-    with transaction.atomic():
-        while True:
+    otp = None
+    
+    start = time.time()  
+    while time.time() - start < 100:
+        with transaction.atomic():
             object = EitaaOTP.objects.first()
             if object:
                 otp = object.otp
                 object.delete()
                 break
+        time.sleep(1)
     
     # otp = input('enter the validation code: ')
     time.sleep(3)
