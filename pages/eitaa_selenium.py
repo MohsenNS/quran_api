@@ -41,7 +41,7 @@ def start_bot():
 
     print("[BOT] received phone_number from .env: ", phone_number)
 
-    driver = webdriver.Chrome(options=opts, desired_capabilities=caps)
+    driver = webdriver.Chrome(options=opts)
     driver.set_page_load_timeout(300)
     print('Starting eitaa bot...')
 
