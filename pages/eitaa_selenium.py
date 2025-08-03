@@ -64,15 +64,13 @@ def start_bot():
     from .models import EitaaOTP
     otp = None
     
-    start = time.time()  
-    while time.time() - start < 100:
+    while True:
         with transaction.atomic():
             object = EitaaOTP.objects.first()
             if object:
                 otp = object.otp
                 object.delete()
                 break
-        time.sleep(1)
     
     # otp = input('enter the validation code: ')
     time.sleep(3)
