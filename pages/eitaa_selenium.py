@@ -10,6 +10,8 @@ from selenium.webdriver.chrome.options import Options
 import uuid
 from selenium.webdriver.chrome.service import Service
 from django.db import transaction
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
 
 
 opts = Options()
@@ -26,17 +28,21 @@ opts.add_argument("--verbose")  # get more internal logging
 # service = Service("/usr/bin/chromedriver")  # adjust if chromedriver is elsewhere
 # driver = webdriver.Chrome(service=service, options=opts)
 
+caps = DesiredCapabilities.CHROME
+caps['pageLoadStrategy'] = 'none'  # Doesn't wait for full page load
+
 driver = None
 
 def start_bot():
-    global driver, opts, service
+    global driver, opts, caps
     # getting the phone number which is being used as the bot in eitaa
     # phone_number = input("Enter phone number without first zero (example: 9110000000): ")
     phone_number = os.environ.get("PHONE_NUMBER")
 
     print("[BOT] received phone_number from .env: ", phone_number)
 
-    driver = webdriver.Chrome(options=opts)
+    driver = webdriver.Chrome(options=opts, desired_capabilities=caps)
+    driver.set_page_load_timeout(300)
     print('Starting eitaa bot...')
 
     # wait until the page loads
@@ -59,6 +65,7 @@ def start_bot():
     time.sleep(3)
     element = driver.find_element(By.XPATH, "//*[@id='auth-pages']/div/div[2]/div[1]/div/div[3]/button")
     element.click()
+    print('Phone number entered.')
 
     # entering the validation code from user and login
     from .models import EitaaOTP
