@@ -10,39 +10,45 @@ from selenium.webdriver.chrome.options import Options
 import uuid
 from selenium.webdriver.chrome.service import Service
 from django.db import transaction
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+# from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 
-opts = Options()
+# opts = Options()
 # Runs Chrome in headless mode.
-opts.add_argument("--headless=new")  # or "--headless" if your Chromium is older
-opts.add_argument("--no-sandbox")
-opts.add_argument("--disable-dev-shm-usage")
+# opts.add_argument("--headless=new")  # or "--headless" if your Chromium is older
+# opts.add_argument("--no-sandbox")
+# opts.add_argument("--disable-dev-shm-usage")
 # unique temp profile
-profile_dir = f"/tmp/selenium_profile_{uuid.uuid4()}"
-print("Using profile:", profile_dir)
-opts.add_argument(f"--user-data-dir={profile_dir}")
-opts.add_argument("--verbose")  # get more internal logging
+# profile_dir = f"/tmp/selenium_profile_{uuid.uuid4()}"
+# print("Using profile:", profile_dir)
+# opts.add_argument(f"--user-data-dir={profile_dir}")
+# opts.add_argument("--verbose")  # get more internal logging
+
+options = Options()
+options.add_argument("--headless")  # Runs Chrome in headless mode.
+options.add_argument("--disable-gpu")  # Recommended for Windows.
+options.add_argument("--no-sandbox")  # Recommended for Linux.
+options.add_argument("--disable-dev-shm-usage") 
 
 # service = Service("/usr/bin/chromedriver")  # adjust if chromedriver is elsewhere
 # driver = webdriver.Chrome(service=service, options=opts)
 
-caps = DesiredCapabilities.CHROME
-caps['pageLoadStrategy'] = 'none'  # Doesn't wait for full page load
+# caps = DesiredCapabilities.CHROME
+# caps['pageLoadStrategy'] = 'none'  # Doesn't wait for full page load
 
 driver = None
 
 def start_bot():
-    global driver, opts, caps
+    global driver, options
     # getting the phone number which is being used as the bot in eitaa
     # phone_number = input("Enter phone number without first zero (example: 9110000000): ")
     phone_number = os.environ.get("PHONE_NUMBER")
 
     print("[BOT] received phone_number from .env: ", phone_number)
 
-    driver = webdriver.Chrome(options=opts)
-    driver.set_page_load_timeout(300)
+    driver = webdriver.Chrome(options=options)
+    # driver.set_page_load_timeout(300)
     print('Starting eitaa bot...')
 
     # wait until the page loads
@@ -73,6 +79,7 @@ def start_bot():
     
     while True:
         with transaction.atomic():
+            time.sleep(2)
             object = EitaaOTP.objects.first()
             if object:
                 otp = object.otp
