@@ -7,26 +7,47 @@
 #     name = 'pages'
 
 #     def ready(self):
-#         threading.Thread(target=eitaa_selenium.start_bot).start()
+#         thread = threading.Thread(target=eitaa_selenium.start_bot)
+#         thread.start()
 
 
-
-import os
-import threading
 from django.apps import AppConfig
 from . import eitaa_selenium
+import threading
+import os
 
 class PagesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'pages'
 
     def ready(self):
-        # if os.environ.get('RUN_MAIN') != 'true':
-        #     # Prevents execution during the initial runserver fork
-        #     return
+        # Check if the code is running in the main process and not the reloader process
+        if os.environ.get('RUN_MAIN', None) != 'true':
+            print("Skipping bot start in reloader process.")
+            return
 
-        print("Running start_bot() only once")
-        threading.Thread(target=eitaa_selenium.start_bot, daemon=True).start()
+        print("Starting the bot in the main process...")
+        thread = threading.Thread(target=eitaa_selenium.start_bot)
+        thread.daemon = True # Use a daemon thread
+        thread.start()
+
+
+# import os
+# import threading
+# from django.apps import AppConfig
+# from . import eitaa_selenium
+
+# class PagesConfig(AppConfig):
+#     default_auto_field = 'django.db.models.BigAutoField'
+#     name = 'pages'
+
+#     def ready(self):
+#         # if os.environ.get('RUN_MAIN') != 'true':
+#         #     # Prevents execution during the initial runserver fork
+#         #     return
+
+#         print("Running start_bot() only once")
+#         threading.Thread(target=eitaa_selenium.start_bot, daemon=True).start()
 
 
 # import threading
