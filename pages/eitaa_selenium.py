@@ -27,7 +27,7 @@ from django.db import transaction
 
 options = Options()
 options.add_argument("--headless")  # Runs Chrome in headless mode.
-options.add_argument("--window-size=1920,1080")
+options.add_argument("--window-size=1366,768")
 options.add_argument("--disable-gpu")  # Recommended for Windows.
 options.add_argument("--no-sandbox")  # Recommended for Linux.
 options.add_argument("--disable-dev-shm-usage") 
