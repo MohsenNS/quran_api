@@ -16,11 +16,20 @@ from . import eitaa_selenium
 import threading
 import os
 
+# Global flag to track if bot has started
+bot_started = False
+
 class PagesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'pages'
 
     def ready(self):
+        global bot_started
+        
+        # Prevent multiple starts
+        if bot_started:
+            return
+            
         # Check if we're running under PM2 or in main process
         is_pm2 = 'PM2' in os.environ or 'PM2_HOME' in os.environ
         is_main_process = os.environ.get('RUN_MAIN') == 'true' or not os.environ.get('DJANGO_AUTO_RELOAD', True)
@@ -33,6 +42,8 @@ class PagesConfig(AppConfig):
         thread = threading.Thread(target=eitaa_selenium.start_bot)
         thread.daemon = True
         thread.start()
+        
+        bot_started = True  # Set flag to prevent future starts
 
 # from django.apps import AppConfig
 # from . import eitaa_selenium
