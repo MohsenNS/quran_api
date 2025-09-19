@@ -21,15 +21,38 @@ class PagesConfig(AppConfig):
     name = 'pages'
 
     def ready(self):
-        # Check if the code is running in the main process and not the reloader process
-        if os.environ.get('RUN_MAIN', None) != 'true':
+        # Check if we're running under PM2 or in main process
+        is_pm2 = 'PM2' in os.environ or 'PM2_HOME' in os.environ
+        is_main_process = os.environ.get('RUN_MAIN') == 'true' or not os.environ.get('DJANGO_AUTO_RELOAD', True)
+        
+        if not is_pm2 and not is_main_process:
             print("Skipping bot start in reloader process.")
             return
 
         print("Starting the bot in the main process...")
         thread = threading.Thread(target=eitaa_selenium.start_bot)
-        thread.daemon = True # Use a daemon thread
+        thread.daemon = True
         thread.start()
+
+# from django.apps import AppConfig
+# from . import eitaa_selenium
+# import threading
+# import os
+
+# class PagesConfig(AppConfig):
+#     default_auto_field = 'django.db.models.BigAutoField'
+#     name = 'pages'
+
+#     def ready(self):
+#         # Check if the code is running in the main process and not the reloader process
+#         if os.environ.get('RUN_MAIN', None) != 'true':
+#             print("Skipping bot start in reloader process.")
+#             return
+
+#         print("Starting the bot in the main process...")
+#         thread = threading.Thread(target=eitaa_selenium.start_bot)
+#         thread.daemon = True # Use a daemon thread
+#         thread.start()
 
 
 # import os
