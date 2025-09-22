@@ -15,6 +15,7 @@ from django.apps import AppConfig
 from . import eitaa_selenium
 import threading
 import os
+import atexit
 
 class PagesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -30,6 +31,15 @@ class PagesConfig(AppConfig):
         thread = threading.Thread(target=eitaa_selenium.start_bot)
         thread.daemon = True # Use a daemon thread
         thread.start()
+
+        def close_browser():
+            try:
+                self.driver.quit()
+                print("Closed Selenium on shutdown.")
+            except Exception:
+                pass
+
+        atexit.register(close_browser)
 
 
 # import os
