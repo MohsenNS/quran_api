@@ -24,3 +24,13 @@ class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
         fields = ['first_name', 'last_name', 'phone_number', 'city', 'age', 'subscription_code']
+
+class SubCodeForgottenSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(
+        help_text="Phone number without + (e.g., 98912000000)"
+    )
+
+class EitaaSubCodeForgottenSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(
+        help_text="Phone number without + (e.g., 98912000000)"
+    )

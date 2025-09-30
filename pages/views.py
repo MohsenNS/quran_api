@@ -2,12 +2,14 @@ from django.shortcuts import get_object_or_404, render
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, GenericAPIView, ListCreateAPIView, CreateAPIView
 from rest_framework.views import APIView
 from .models import QuranPage, Khatm, KhatmRecords, Member
-from .serializers import QuranPageSerializer, KhatmSerializer, KhatmRecordsSerializer, MemberSerializer
+from .serializers import QuranPageSerializer, KhatmSerializer, KhatmRecordsSerializer, MemberSerializer, SubCodeForgottenSerializer, EitaaSubCodeForgottenSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from rest_framework import status
 import requests
 from .eitaa_selenium import message
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 
 #generic views is used here
@@ -74,6 +76,10 @@ class MemberDetail(CreateAPIView):
 
 
 class SubCodeForgotten(APIView):
+    @swagger_auto_schema(
+        operation_description="Retrieve subscription code by phone number",
+        request_body=SubCodeForgottenSerializer)
+
     def post(self, request):
         phone_number = request.data.get('phone_number')
         if not phone_number:
@@ -98,6 +104,10 @@ class SubCodeForgotten(APIView):
 
 
 class EitaaSubCodeForgotten(APIView):
+    @swagger_auto_schema(
+        operation_description="Retrieve subscription code by phone number",
+        request_body=EitaaSubCodeForgottenSerializer)
+    
     def post(self, request):
         phone_number = request.data.get('phone_number')
         if not phone_number:
